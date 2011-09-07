@@ -33,7 +33,7 @@ Feedback
 ========
 Use the [issue tracker][2] or send an [email to the maintainer][3].
 
-  [2]: https://github.com/HeinrichApfelmus/reactive-banana/issues
+  [2]: https://github.com/HeinrichApfelmus/vault/issues
   [3]: mailto:apfelmus@quantentunnel.de
 
 
