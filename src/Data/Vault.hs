@@ -1,3 +1,12 @@
+{-----------------------------------------------------------------------------
+    Vault
+    
+    A typed, persistent store for values of arbitrary types
+    
+    This implementation uses  unsafeCoerce  for reasons of efficiency.
+    See  http://apfelmus.nfshost.com/blog/2011/09/04-vault.html
+    for an implementation that doesn't need to bypass the type checker.
+------------------------------------------------------------------------------}
 module Data.Vault (
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
