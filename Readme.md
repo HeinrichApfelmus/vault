@@ -13,7 +13,9 @@ In other words, a vault is an abstract data type with the following basic signat
     empty  :: Vault
     lookup :: Key a -> Vault -> Maybe a
     insert :: Key a -> a -> Vault -> Vault
+    adjust :: (a -> a) -> Key a -> Vault -> Vault
     delete :: Key a -> Vault -> Vault
+    union  :: Vault -> Vault -> Vault
 
 A few common functions for finite maps, like `adjust` and `union`, are provided as well.
 
