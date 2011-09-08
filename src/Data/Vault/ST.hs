@@ -24,8 +24,12 @@ import GHC.Exts (Any)   -- ghc specific tricks
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | A typed, persistent store for values of arbitrary types.
+-- 
+-- This variant has more complex types so that you can create keys in the 'ST' monad.
+-- See the module "Data.Vault" if you'd like to use a simpler version with the 'IO' monad.
+-- You can also use both variants simultaneously; they share a single representation.
 newtype Vault s = Vault (Map Unique Any)
--- | Keys for the vault
+-- | Keys for the vault.
 newtype Key s a = Key Unique
 
 instance Monoid (Vault s) where

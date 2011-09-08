@@ -16,7 +16,14 @@ import Prelude hiding (lookup)
 import Control.Monad.ST
 import qualified Data.Vault.ST as ST
 
+-- | A typed, persistent store for values of arbitrary types.
+-- 
+-- This variant is the simplest and creates keys in the 'IO' monad.
+-- See the module "Data.Vault.ST" if you want to use it with the 'ST' monad instead.
+--
+-- > instance Monoid Vault
 type Vault = ST.Vault RealWorld
+-- | Keys for the vault.
 type Key a = ST.Key RealWorld a
 
 -- | The empty vault.
