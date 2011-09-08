@@ -24,6 +24,8 @@ import qualified Data.Vault.ST as ST
 -- > instance Monoid Vault
 type Vault = ST.Vault RealWorld
 -- | Keys for the vault.
+--
+-- > Key :: * -> *
 type Key = ST.Key RealWorld
 
 -- | The empty vault.
