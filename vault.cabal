@@ -30,5 +30,5 @@ Library
     hs-source-dirs:     src
     build-depends:      base == 4.*, containers == 0.4.*
     ghc-options:        -Wall
-    exposed-modules:    Data.Vault
+    exposed-modules:    Data.Vault, Data.Vault.ST
 
