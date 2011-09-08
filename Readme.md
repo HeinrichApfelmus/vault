@@ -4,7 +4,7 @@ A *vault* is a type-safe, persistent storage for values of arbitrary types. Like
 
 It is analogous to a bank vault, where you can access different bank boxes with different keys; hence the name.
 
-In other words, a vault is an abstract data type with the following signature
+In other words, a vault is an abstract data type with the following basic signature
 
     data Key a
     data Vault
@@ -15,6 +15,7 @@ In other words, a vault is an abstract data type with the following signature
     insert :: Key a -> a -> Vault -> Vault
     delete :: Key a -> Vault -> Vault
 
+A few common functions for finite maps, like `adjust` and `union`, are provided as well.
 
 
 This library was created thanks to the feedback on my blog post [Vault - a persistent store for values of arbitrary types][1].
