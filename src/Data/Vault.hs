@@ -13,49 +13,36 @@ module Data.Vault (
     ) where
 
 import Prelude hiding (lookup)
-import Data.Monoid hiding (Any)
-import Data.Functor
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Data.Unique
+import Control.Monad.ST
+import qualified Data.Vault.ST as ST
 
-import GHC.Exts (Any)   -- ghc specific tricks
-import Unsafe.Coerce (unsafeCoerce)
-
--- | A typed, persistent store for values of arbitrary types.
-newtype Vault = Vault (Map Unique Any)
--- | Keys for the vault
-newtype Key a  = Key Unique
-
-instance Monoid Vault where
-    mempty = empty
-    mappend = union
+type Vault = ST.Vault RealWorld
+type Key a = ST.Key RealWorld a
 
 -- | The empty vault.
 empty :: Vault
-empty = Vault Map.empty
+empty = ST.empty
 
 -- | Create a new key for use with a vault.
 newKey :: IO (Key a)
-newKey = Key <$> newUnique
+newKey = stToIO ST.newKey
 
 -- | Lookup the value of a key in the vault.
 lookup :: Key a -> Vault -> Maybe a
-lookup (Key k) (Vault m) = unsafeCoerce <$> Map.lookup k m 
+lookup = ST.lookup
 
 -- | Insert a value for a given key. Overwrites any previous value.
 insert :: Key a -> a -> Vault -> Vault
-insert (Key k) x (Vault m) = Vault $ Map.insert k (unsafeCoerce x) m
+insert = ST.insert
 
 -- | Adjust the value for a given key if it's present in the vault.
 adjust :: (a -> a) -> Key a -> Vault -> Vault
-adjust f (Key k) (Vault m) = Vault $ Map.alter f' k m
-    where f' = unsafeCoerce . f . unsafeCoerce
+adjust = ST.adjust
 
 -- | Delete a key from the vault.
 delete :: Key a -> Vault -> Vault
-delete (Key k) (Vault m) = Vault $ Map.delete k m
+delete = ST.delete
 
 -- | Merge two vaults (left-biased).
 union :: Vault -> Vault -> Vault
-union (Vault m) (Vault m') = Vault $ Map.union m m'
+union = ST.union
