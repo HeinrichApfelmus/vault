@@ -18,7 +18,7 @@ import Data.Map (Map)
 import qualified Data.Map as Map
 import Data.Unique
 
-import GHC.Base (Any)   -- ghc specific tricks
+import GHC.Exts (Any)   -- ghc specific tricks
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | A typed, persistent store for values of arbitrary types.
