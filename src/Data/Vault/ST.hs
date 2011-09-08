@@ -13,7 +13,7 @@ module Data.Vault.ST (
     ) where
 
 import Prelude hiding (lookup)
-import Data.Monoid
+import Data.Monoid hiding (Any)
 import Data.Functor
 import Data.Map (Map)
 import qualified Data.Map as Map
