@@ -9,7 +9,7 @@
 ------------------------------------------------------------------------------}
 module Data.Vault (
     Vault, Key,
-    empty, newKey, lookup, insert, delete,
+    empty, newKey, lookup, insert, adjust, delete,
     ) where
 
 import Prelude hiding (lookup)
@@ -42,7 +42,11 @@ lookup (Key k) (Vault m) = unsafeCoerce <$> Map.lookup k m
 insert :: Key a -> a -> Vault -> Vault
 insert (Key k) x (Vault m) = Vault $ Map.insert k (unsafeCoerce x) m
 
+-- | Adjust the value for a given key if it's present in the vault.
+adjust :: (a -> a) -> Key a -> Vault -> Vault
+adjust f (Key k) (Vault m) = Vault $ Map.alter f' k m
+    where f' = unsafeCoerce . f . unsafeCoerce
+
 -- | Delete a key from the vault.
 delete :: Key a -> Vault -> Vault
 delete (Key k) (Vault m) = Vault $ Map.delete k m
-
