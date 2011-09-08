@@ -9,10 +9,11 @@
 ------------------------------------------------------------------------------}
 module Data.Vault (
     Vault, Key,
-    empty, newKey, lookup, insert, adjust, delete,
+    empty, newKey, lookup, insert, adjust, delete, union,
     ) where
 
 import Prelude hiding (lookup)
+import Data.Monoid
 import Data.Functor
 import Data.Map (Map)
 import qualified Data.Map as Map
@@ -25,6 +26,10 @@ import Unsafe.Coerce (unsafeCoerce)
 newtype Vault = Vault (Map Unique Any)
 -- | Keys for the vault
 newtype Key a  = Key Unique
+
+instance Monoid Vault where
+    mempty = empty
+    mappend = union
 
 -- | The empty vault.
 empty :: Vault
@@ -50,3 +55,7 @@ adjust f (Key k) (Vault m) = Vault $ Map.alter f' k m
 -- | Delete a key from the vault.
 delete :: Key a -> Vault -> Vault
 delete (Key k) (Vault m) = Vault $ Map.delete k m
+
+-- | Merge two vaults (left-biased).
+union :: Vault -> Vault -> Vault
+union (Vault m) (Vault m') = Vault $ Map.union m m'
