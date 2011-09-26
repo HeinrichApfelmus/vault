@@ -25,10 +25,12 @@ This library was created thanks to the feedback on my blog post [Vault - a persi
 
 Installation
 ============
-The whole thing is available on hackage, so you just have to type
+The whole thing is [available on hackage][hackage], so you just have to type
 
     cabal update
     cabal install vault
+
+  [hackage]: http://hackage.haskell.org/package/vault
 
 Feedback
 ========
