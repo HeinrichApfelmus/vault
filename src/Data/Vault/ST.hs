@@ -54,7 +54,7 @@ insert (Key k) x (Vault m) = Vault $ Map.insert k (unsafeCoerce x) m
 
 -- | Adjust the value for a given key if it's present in the vault.
 adjust :: (a -> a) -> Key s a -> Vault s -> Vault s
-adjust f (Key k) (Vault m) = Vault $ Map.alter f' k m
+adjust f (Key k) (Vault m) = Vault $ Map.adjust f' k m
     where f' = unsafeCoerce . f . unsafeCoerce
 
 -- | Delete a key from the vault.
