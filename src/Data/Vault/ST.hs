@@ -36,6 +36,12 @@ instance Monoid (Vault s) where
     mempty = empty
     mappend = union
 
+toAny :: a -> Any
+toAny = unsafeCoerce
+
+fromAny :: Any -> a
+fromAny = unsafeCoerce
+
 -- | The empty vault.
 empty :: Vault s
 empty = Vault Map.empty
@@ -46,16 +52,16 @@ newKey = Key <$> unsafeIOToST newUnique
 
 -- | Lookup the value of a key in the vault.
 lookup :: Key s a -> Vault s -> Maybe a
-lookup (Key k) (Vault m) = unsafeCoerce <$> Map.lookup k m 
+lookup (Key k) (Vault m) = fromAny <$> Map.lookup k m 
 
 -- | Insert a value for a given key. Overwrites any previous value.
 insert :: Key s a -> a -> Vault s -> Vault s
-insert (Key k) x (Vault m) = Vault $ Map.insert k (unsafeCoerce x) m
+insert (Key k) x (Vault m) = Vault $ Map.insert k (toAny x) m
 
 -- | Adjust the value for a given key if it's present in the vault.
 adjust :: (a -> a) -> Key s a -> Vault s -> Vault s
 adjust f (Key k) (Vault m) = Vault $ Map.adjust f' k m
-    where f' = unsafeCoerce . f . unsafeCoerce
+    where f' = toAny . f . fromAny
 
 -- | Delete a key from the vault.
 delete :: Key s a -> Vault s -> Vault s
