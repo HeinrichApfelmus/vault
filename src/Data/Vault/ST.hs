@@ -10,6 +10,9 @@
 module Data.Vault.ST (
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
+    -- * Boxes
+    Box,
+    toBox, fromBox,
     ) where
 
 import Prelude hiding (lookup)
@@ -24,6 +27,12 @@ import GHC.Exts (Any)   -- ghc specific tricks
 import System.IO.Unsafe (unsafePerformIO)
 import Unsafe.Coerce (unsafeCoerce)
 
+toAny :: a -> Any
+toAny = unsafeCoerce
+
+fromAny :: Any -> a
+fromAny = unsafeCoerce
+
 -- | A typed, persistent store for values of arbitrary types.
 -- 
 -- This variant has more complex types so that you can create keys in the 'ST' monad.
@@ -36,12 +45,6 @@ newtype Key s a = Key Int
 instance Monoid (Vault s) where
     mempty = empty
     mappend = union
-
-toAny :: a -> Any
-toAny = unsafeCoerce
-
-fromAny :: Any -> a
-fromAny = unsafeCoerce
 
 -- | The empty vault.
 empty :: Vault s
@@ -77,3 +80,16 @@ delete (Key k) (Vault m) = Vault $ IntMap.delete k m
 -- | Merge two vaults (left-biased).
 union :: Vault s -> Vault s -> Vault s
 union (Vault m) (Vault m') = Vault $ IntMap.union m m'
+
+-- | An efficient implementation of a single-element @Vault s@.
+data Box s = Box !Int Any
+
+-- | @toBox k a@ is analogous to @insert k a empty@.
+toBox :: Key s a -> a -> Box s
+toBox (Key k) = Box k . toAny
+
+-- | @fromBox k a@ is analogous to @lookup k a@.
+fromBox :: Key s a -> Box s -> Maybe a
+fromBox (Key k) (Box k' a)
+  | k == k' = Just $ fromAny a
+  | otherwise = Nothing

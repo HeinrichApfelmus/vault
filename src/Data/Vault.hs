@@ -10,6 +10,9 @@
 module Data.Vault (
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
+    -- * Boxes
+    Box,
+    toBox, fromBox,
     ) where
 
 import Prelude hiding (lookup)
@@ -21,11 +24,12 @@ import qualified Data.Vault.ST as ST
 -- This variant is the simplest and creates keys in the 'IO' monad.
 -- See the module "Data.Vault.ST" if you want to use it with the 'ST' monad instead.
 --
+-- > type Vault :: *
 -- > instance Monoid Vault
 type Vault = ST.Vault RealWorld
 -- | Keys for the vault.
 --
--- > Key :: * -> *
+-- > type Key :: * -> *
 type Key = ST.Key RealWorld
 
 -- | The empty vault.
@@ -55,3 +59,16 @@ delete = ST.delete
 -- | Merge two vaults (left-biased).
 union :: Vault -> Vault -> Vault
 union = ST.union
+
+-- | An efficient implementation of a single-element @Vault@.
+--
+-- > type Box :: *
+type Box = ST.Box RealWorld
+
+-- | @toBox k a@ is analogous to @insert k a empty@.
+toBox :: Key a -> a -> Box
+toBox = ST.toBox
+
+-- | @fromBox k a@ is analogous to @lookup k a@.
+fromBox :: Key a -> Box -> Maybe a
+fromBox = ST.fromBox
