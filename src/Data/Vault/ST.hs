@@ -10,27 +10,37 @@
 module Data.Vault.ST (
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
+    -- * Lockers
+    Locker,
+    lock, unlock,
     ) where
 
 import Prelude hiding (lookup)
 import Data.Monoid hiding (Any)
 import Data.Functor
-import Data.Map (Map)
-import qualified Data.Map as Map
-import Data.Unique
+import Data.IntMap (IntMap)
+import qualified Data.IntMap as IntMap
+import Data.IORef
 import Control.Monad.ST
 
 import GHC.Exts (Any)   -- ghc specific tricks
+import System.IO.Unsafe (unsafePerformIO)
 import Unsafe.Coerce (unsafeCoerce)
+
+toAny :: a -> Any
+toAny = unsafeCoerce
+
+fromAny :: Any -> a
+fromAny = unsafeCoerce
 
 -- | A typed, persistent store for values of arbitrary types.
 -- 
 -- This variant has more complex types so that you can create keys in the 'ST' monad.
 -- See the module "Data.Vault" if you'd like to use a simpler version with the 'IO' monad.
 -- You can also use both variants simultaneously; they share a single representation.
-newtype Vault s = Vault (Map Unique Any)
+newtype Vault s = Vault (IntMap Any)
 -- | Keys for the vault.
-newtype Key s a = Key Unique
+newtype Key s a = Key Int
 
 instance Monoid (Vault s) where
     mempty = empty
@@ -38,29 +48,48 @@ instance Monoid (Vault s) where
 
 -- | The empty vault.
 empty :: Vault s
-empty = Vault Map.empty
+empty = Vault IntMap.empty
+
+{-# NOINLINE nextKey #-}
+nextKey :: IORef (Key s a)
+nextKey = unsafePerformIO $ newIORef (Key 0)
 
 -- | Create a new key for use with a vault.
 newKey :: ST s (Key s a)
-newKey = Key <$> unsafeIOToST newUnique
+newKey = unsafeIOToST . atomicModifyIORef nextKey $ \k@(Key i) ->
+    let k' = Key (i+1)
+    in k' `seq` (k', k)
 
 -- | Lookup the value of a key in the vault.
 lookup :: Key s a -> Vault s -> Maybe a
-lookup (Key k) (Vault m) = unsafeCoerce <$> Map.lookup k m 
+lookup (Key k) (Vault m) = fromAny <$> IntMap.lookup k m
 
 -- | Insert a value for a given key. Overwrites any previous value.
 insert :: Key s a -> a -> Vault s -> Vault s
-insert (Key k) x (Vault m) = Vault $ Map.insert k (unsafeCoerce x) m
+insert (Key k) x (Vault m) = Vault $ IntMap.insert k (toAny x) m
 
 -- | Adjust the value for a given key if it's present in the vault.
 adjust :: (a -> a) -> Key s a -> Vault s -> Vault s
-adjust f (Key k) (Vault m) = Vault $ Map.alter f' k m
-    where f' = unsafeCoerce . f . unsafeCoerce
+adjust f (Key k) (Vault m) = Vault $ IntMap.adjust f' k m
+    where f' = toAny . f . fromAny
 
 -- | Delete a key from the vault.
 delete :: Key s a -> Vault s -> Vault s
-delete (Key k) (Vault m) = Vault $ Map.delete k m
+delete (Key k) (Vault m) = Vault $ IntMap.delete k m
 
 -- | Merge two vaults (left-biased).
 union :: Vault s -> Vault s -> Vault s
-union (Vault m) (Vault m') = Vault $ Map.union m m'
+union (Vault m) (Vault m') = Vault $ IntMap.union m m'
+
+-- | An efficient implementation of a single-element @Vault s@.
+data Locker s = Locker !Int Any
+
+-- | @lock k a@ is analogous to @insert k a empty@.
+lock :: Key s a -> a -> Locker s
+lock (Key k) = Locker k . toAny
+
+-- | @unlock k a@ is analogous to @lookup k a@.
+unlock :: Key s a -> Locker s -> Maybe a
+unlock (Key k) (Locker k' a)
+  | k == k' = Just $ fromAny a
+  | otherwise = Nothing
