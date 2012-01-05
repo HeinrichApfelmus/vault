@@ -10,9 +10,9 @@
 module Data.Vault (
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
-    -- * Boxes
-    Box,
-    toBox, fromBox,
+    -- * Lockers
+    Locker,
+    lock, unlock,
     ) where
 
 import Prelude hiding (lookup)
@@ -62,13 +62,13 @@ union = ST.union
 
 -- | An efficient implementation of a single-element @Vault@.
 --
--- > type Box :: *
-type Box = ST.Box RealWorld
+-- > type Locker :: *
+type Locker = ST.Locker RealWorld
 
--- | @toBox k a@ is analogous to @insert k a empty@.
-toBox :: Key a -> a -> Box
-toBox = ST.toBox
+-- | @lock k a@ is analogous to @insert k a empty@.
+lock :: Key a -> a -> Locker
+lock = ST.lock
 
--- | @fromBox k a@ is analogous to @lookup k a@.
-fromBox :: Key a -> Box -> Maybe a
-fromBox = ST.fromBox
+-- | @unlock k a@ is analogous to @lookup k a@.
+unlock :: Key a -> Locker -> Maybe a
+unlock = ST.unlock

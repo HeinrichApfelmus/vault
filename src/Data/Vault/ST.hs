@@ -10,9 +10,9 @@
 module Data.Vault.ST (
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
-    -- * Boxes
-    Box,
-    toBox, fromBox,
+    -- * Lockers
+    Locker,
+    lock, unlock,
     ) where
 
 import Prelude hiding (lookup)
@@ -82,14 +82,14 @@ union :: Vault s -> Vault s -> Vault s
 union (Vault m) (Vault m') = Vault $ IntMap.union m m'
 
 -- | An efficient implementation of a single-element @Vault s@.
-data Box s = Box !Int Any
+data Locker s = Locker !Int Any
 
--- | @toBox k a@ is analogous to @insert k a empty@.
-toBox :: Key s a -> a -> Box s
-toBox (Key k) = Box k . toAny
+-- | @lock k a@ is analogous to @insert k a empty@.
+lock :: Key s a -> a -> Locker s
+lock (Key k) = Locker k . toAny
 
--- | @fromBox k a@ is analogous to @lookup k a@.
-fromBox :: Key s a -> Box s -> Maybe a
-fromBox (Key k) (Box k' a)
+-- | @unlock k a@ is analogous to @lookup k a@.
+unlock :: Key s a -> Locker s -> Maybe a
+unlock (Key k) (Locker k' a)
   | k == k' = Just $ fromAny a
   | otherwise = Nothing

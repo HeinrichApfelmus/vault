@@ -9,8 +9,8 @@ Description:
   where you can access different bank boxes with different keys;
   hence the name.
   .
-  Also provided is a /box/ type, representing a vault with a single
-  element (think safe deposit box).
+  Also provided is a /locker/ type, representing a vault with a single
+  element.
   
 Category:           Data
 License:            BSD3
