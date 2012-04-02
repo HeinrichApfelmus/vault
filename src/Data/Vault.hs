@@ -1,16 +1,15 @@
 {-----------------------------------------------------------------------------
-    Vault
-    
-    A typed, persistent store for values of arbitrary types
-    
-    This implementation uses  unsafeCoerce  for reasons of efficiency.
-    See  http://apfelmus.nfshost.com/blog/2011/09/04-vault.html
-    for an implementation that doesn't need to bypass the type checker.
+    vault
 ------------------------------------------------------------------------------}
 module Data.Vault (
+    -- * Synopsis
+    -- | A persistent store for values of arbitrary types.
+    
+    -- * Vault
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
-    -- * Lockers
+    
+    -- * Locker
     Locker,
     lock, unlock,
     ) where
@@ -19,7 +18,10 @@ import Prelude hiding (lookup)
 import Control.Monad.ST
 import qualified Data.Vault.ST as ST
 
--- | A typed, persistent store for values of arbitrary types.
+{-----------------------------------------------------------------------------
+    Vault
+------------------------------------------------------------------------------}
+-- | A persistent store for values of arbitrary types.
 -- 
 -- This variant is the simplest and creates keys in the 'IO' monad.
 -- See the module "Data.Vault.ST" if you want to use it with the 'ST' monad instead.
@@ -27,6 +29,7 @@ import qualified Data.Vault.ST as ST
 -- > type Vault :: *
 -- > instance Monoid Vault
 type Vault = ST.Vault RealWorld
+
 -- | Keys for the vault.
 --
 -- > type Key :: * -> *
@@ -60,15 +63,18 @@ delete = ST.delete
 union :: Vault -> Vault -> Vault
 union = ST.union
 
--- | An efficient implementation of a single-element @Vault@.
+{-----------------------------------------------------------------------------
+    Locker
+------------------------------------------------------------------------------}
+-- | A persistent store for a single value.
 --
 -- > type Locker :: *
 type Locker = ST.Locker RealWorld
 
--- | @lock k a@ is analogous to @insert k a empty@.
+-- | Put a single value into a 'Locker'.
 lock :: Key a -> a -> Locker
 lock = ST.lock
 
--- | @unlock k a@ is analogous to @lookup k a@.
+-- | Retrieve the value from the 'Locker'.
 unlock :: Key a -> Locker -> Maybe a
 unlock = ST.unlock

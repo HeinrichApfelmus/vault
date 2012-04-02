@@ -1,16 +1,15 @@
 Name:               vault
-Version:            0.1.0.0
-Synopsis:           a typed, persistent store for values of arbitrary types
+Version:            0.2.0.0
+Synopsis:           a persistent store for values of arbitrary types
 Description:
-  A /vault/ is a typed, persistent store for values of arbitrary types.
+  A /vault/ is a persistent store for values of arbitrary types.
   It's like having first-class access to the storage space behind IORefs.
   .
   The data structure is analogous to a bank vault,
   where you can access different bank boxes with different keys;
   hence the name.
   .
-  Also provided is a /locker/ type, representing a vault with a single
-  element.
+  Also provided is a /locker/ type, representing a store for a single element.
   
 Category:           Data
 License:            BSD3
@@ -33,5 +32,10 @@ Library
     hs-source-dirs:     src
     build-depends:      base == 4.*, containers == 0.4.*
     ghc-options:        -Wall
-    exposed-modules:    Data.Vault, Data.Vault.ST
-
+    extensions:         CPP
+    exposed-modules:
+                        Data.Vault,
+                        Data.Vault.ST
+    other-modules:
+                        Data.Vault.ST_GHC,
+                        Data.Vault.ST_Pure

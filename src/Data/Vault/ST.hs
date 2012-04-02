@@ -1,95 +1,100 @@
 {-----------------------------------------------------------------------------
-    Vault
-    
-    A typed, persistent store for values of arbitrary types
-    
-    This implementation uses  unsafeCoerce  for reasons of efficiency.
-    See  http://apfelmus.nfshost.com/blog/2011/09/04-vault.html
-    for an implementation that doesn't need to bypass the type checker.
+    vault
 ------------------------------------------------------------------------------}
+{-# LANGUAGE CPP #-}
 module Data.Vault.ST (
+    -- * Synopsis
+    -- | A persistent store for values of arbitrary types.
+    -- Variant for the 'ST' monad.
+    
+    -- * Vault
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
-    -- * Lockers
+    
+    -- * Locker
     Locker,
     lock, unlock,
     ) where
 
+import Data.Monoid (Monoid(..))
 import Prelude hiding (lookup)
-import Data.Monoid hiding (Any)
-import Data.Functor
-import Data.IntMap (IntMap)
-import qualified Data.IntMap as IntMap
-import Data.IORef
 import Control.Monad.ST
 
-import GHC.Exts (Any)   -- ghc specific tricks
-import System.IO.Unsafe (unsafePerformIO)
-import Unsafe.Coerce (unsafeCoerce)
+{-
+    The GHC-specific implementation uses  unsafeCoerce 
+    for reasons of efficiency.
+    
+    See  http://apfelmus.nfshost.com/blog/2011/09/04-vault.html
+    for the second implementation that doesn't need to
+    bypass the type checker.
+-}
+#if __GLASGOW_HASKELL__
+import qualified Data.Vault.ST_GHC as ST
+#else
+import qualified Data.Vault.ST_Pure as ST
+#endif
 
-toAny :: a -> Any
-toAny = unsafeCoerce
-
-fromAny :: Any -> a
-fromAny = unsafeCoerce
-
--- | A typed, persistent store for values of arbitrary types.
+{-----------------------------------------------------------------------------
+    Vault
+------------------------------------------------------------------------------}
+-- | A persistent store for values of arbitrary types.
 -- 
--- This variant has more complex types so that you can create keys in the 'ST' monad.
--- See the module "Data.Vault" if you'd like to use a simpler version with the 'IO' monad.
--- You can also use both variants simultaneously; they share a single representation.
-newtype Vault s = Vault (IntMap Any)
--- | Keys for the vault.
-newtype Key s a = Key Int
+-- This variant is the simplest and creates keys in the 'IO' monad.
+-- See the module "Data.Vault.ST" if you want to use it with the 'ST' monad instead.
+--
+-- > type Vault :: * -> *
+-- > instance Monoid Vault
+type Vault = ST.Vault
 
-instance Monoid (Vault s) where
+instance Monoid (ST.Vault s) where
     mempty = empty
     mappend = union
 
+-- | Keys for the vault.
+--
+-- > type Key :: * -> * -> *
+type Key = ST.Key
+
 -- | The empty vault.
 empty :: Vault s
-empty = Vault IntMap.empty
-
-{-# NOINLINE nextKey #-}
-nextKey :: IORef (Key s a)
-nextKey = unsafePerformIO $ newIORef (Key 0)
+empty = ST.empty
 
 -- | Create a new key for use with a vault.
 newKey :: ST s (Key s a)
-newKey = unsafeIOToST . atomicModifyIORef nextKey $ \k@(Key i) ->
-    let k' = Key (i+1)
-    in k' `seq` (k', k)
+newKey = ST.newKey
 
 -- | Lookup the value of a key in the vault.
 lookup :: Key s a -> Vault s -> Maybe a
-lookup (Key k) (Vault m) = fromAny <$> IntMap.lookup k m
+lookup = ST.lookup
 
 -- | Insert a value for a given key. Overwrites any previous value.
 insert :: Key s a -> a -> Vault s -> Vault s
-insert (Key k) x (Vault m) = Vault $ IntMap.insert k (toAny x) m
+insert = ST.insert
 
 -- | Adjust the value for a given key if it's present in the vault.
 adjust :: (a -> a) -> Key s a -> Vault s -> Vault s
-adjust f (Key k) (Vault m) = Vault $ IntMap.adjust f' k m
-    where f' = toAny . f . fromAny
+adjust = ST.adjust
 
 -- | Delete a key from the vault.
 delete :: Key s a -> Vault s -> Vault s
-delete (Key k) (Vault m) = Vault $ IntMap.delete k m
+delete = ST.delete
 
 -- | Merge two vaults (left-biased).
 union :: Vault s -> Vault s -> Vault s
-union (Vault m) (Vault m') = Vault $ IntMap.union m m'
+union = ST.union
 
--- | An efficient implementation of a single-element @Vault s@.
-data Locker s = Locker !Int Any
+{-----------------------------------------------------------------------------
+    Locker
+------------------------------------------------------------------------------}
+-- | A persistent store for a single value.
+--
+-- > type Locker :: * -> *
+type Locker = ST.Locker
 
--- | @lock k a@ is analogous to @insert k a empty@.
+-- | Put a single value into a 'Locker'.
 lock :: Key s a -> a -> Locker s
-lock (Key k) = Locker k . toAny
+lock = ST.lock
 
--- | @unlock k a@ is analogous to @lookup k a@.
+-- | Retrieve the value from the 'Locker'.
 unlock :: Key s a -> Locker s -> Maybe a
-unlock (Key k) (Locker k' a)
-  | k == k' = Just $ fromAny a
-  | otherwise = Nothing
+unlock = ST.unlock
