@@ -30,7 +30,7 @@ source-repository head
 
 Library
     hs-source-dirs:     src
-    build-depends:      base == 4.*, containers == 0.4.*
+    build-depends:      base == 4.*, containers >= 0.4 && < 0.6
     if impl(ghc)
         build-depends:  unordered-containers >= 0.2.1.0 && < 0.3,
                         hashable == 1.1.*
