@@ -1,5 +1,5 @@
 Name:               vault
-Version:            0.2.0.0
+Version:            0.2.0.1
 Synopsis:           a persistent store for values of arbitrary types
 Description:
   A /vault/ is a persistent store for values of arbitrary types.
