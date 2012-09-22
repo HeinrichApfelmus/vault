@@ -28,7 +28,7 @@ import Control.Monad.ST
     for the second implementation that doesn't need to
     bypass the type checker.
 -}
-#if __GLASGOW_HASKELL__
+#if __GLASGOW_HASKELL__ && !__HASTE__
 import qualified Data.Vault.ST_GHC as ST
 #else
 import qualified Data.Vault.ST_Pure as ST
