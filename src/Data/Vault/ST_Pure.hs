@@ -10,6 +10,7 @@ import Control.Applicative
 import Control.Monad.ST
 
 import System.IO.Unsafe (unsafePerformIO)
+import Control.Monad.ST.Unsafe
 
 import Data.Unique
 
@@ -41,7 +42,8 @@ newtype Vault s = Vault (Map Unique (Locker s))
 empty  = Vault Map.empty
 
 newKey :: ST s (Key s a)
-newKey = unsafeIOToST $ Key <$> newUnique <*> newIORef Nothing
+newKey = Control.Monad.ST.Unsafe.unsafeIOToST $
+    Key <$> newUnique <*> newIORef Nothing
 
 lookup :: Key s a -> Vault s -> Maybe a
 lookup key@(Key k _)   (Vault m) = unlock key =<< Map.lookup k m

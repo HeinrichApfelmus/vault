@@ -9,6 +9,7 @@ import Data.IntMap (IntMap)
 import qualified Data.IntMap as IntMap
 import Data.IORef
 import Control.Monad.ST
+import Control.Monad.ST.Unsafe
 
 
 import Data.Unique.Really
@@ -37,7 +38,7 @@ empty :: Vault s
 empty = Vault Map.empty
 
 newKey :: ST s (Key s a)
-newKey = unsafeIOToST $ Key <$> newUnique
+newKey = Control.Monad.ST.Unsafe.unsafeIOToST $ Key <$> newUnique
 
 lookup :: Key s a -> Vault s -> Maybe a
 lookup (Key k) (Vault m) = fromAny <$> Map.lookup k m

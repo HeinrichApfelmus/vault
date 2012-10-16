@@ -11,7 +11,7 @@ module Data.Unique.Really (
 import Control.Applicative
 import System.IO.Unsafe (unsafePerformIO)
 
-#if __GLASGOW_HASKELL__ && !__HASTE__
+#if UseGHC
 
 import Control.Exception (evaluate)
 import qualified Data.Unique
