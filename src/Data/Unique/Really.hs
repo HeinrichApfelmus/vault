@@ -33,7 +33,7 @@ newUnique = do
 
 hashUnique (Unique s) = hashStableName s
 
-instance Hashable Unique where hash = hashUnique
+instance Hashable Unique where hashWithSalt s = hashWithSalt s . hashUnique
 
 #else
 
