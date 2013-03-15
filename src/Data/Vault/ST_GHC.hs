@@ -5,8 +5,6 @@ module Data.Vault.ST_GHC where
 
 import Prelude hiding (lookup)
 import Data.Functor
-import Data.IntMap (IntMap)
-import qualified Data.IntMap as IntMap
 import Data.IORef
 import Control.Monad.ST
 #if MIN_VERSION_base(4,4,0)
@@ -22,7 +20,7 @@ import Data.Unique.Really
 import GHC.Exts (Any)
 import Unsafe.Coerce (unsafeCoerce)
 
-import qualified Data.HashMap.Lazy as Map
+import qualified Data.HashMap.Strict as Map
 type Map = Map.HashMap
 
 toAny :: a -> Any
@@ -60,7 +58,7 @@ union (Vault m) (Vault m') = Vault $ Map.union m m'
 {-----------------------------------------------------------------------------
     Locker
 ------------------------------------------------------------------------------}
-data Locker s = Locker !Unique Any
+data Locker s = Locker !Unique !Any
 
 lock :: Key s a -> a -> Locker s
 lock (Key k) = Locker k . toAny
