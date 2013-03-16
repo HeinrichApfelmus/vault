@@ -1,5 +1,5 @@
 Name:               vault
-Version:            0.2.0.4
+Version:            0.3.0.0
 Synopsis:           a persistent store for values of arbitrary types
 Description:
   A /vault/ is a persistent store for values of arbitrary types.
@@ -17,7 +17,7 @@ License-file:       LICENSE
 Author:             Heinrich Apfelmus, Elliott Hird
 Maintainer:         Heinrich Apfelmus <apfelmus at quantentunnel de>
 Homepage:           https://github.com/HeinrichApfelmus/vault
-Copyright:          (c) Heinrich Apfelmus 2011
+Copyright:          (c) Heinrich Apfelmus 2011-2013
 
 build-type:         Simple
 cabal-version:      >= 1.6
@@ -45,11 +45,17 @@ Library
 --    ghc-options:        -Wall
 
     exposed-modules:
-                        Data.Vault,
-                        Data.Vault.ST,
+                        Data.Vault.Lazy,
+                        Data.Vault.Strict,
+                        Data.Vault.ST.Lazy,
+                        Data.Vault.ST.Strict,
                         Data.Unique.Really
                         
     if impl(ghc) && flag(UseGHC)
-        other-modules: Data.Vault.ST_GHC
+        other-modules:
+                        Data.Vault.ST.GHC_Lazy,
+                        Data.Vault.ST.GHC_Strict
     else
-        other-modules: Data.Vault.ST_Pure
+        other-modules:
+                        Data.Vault.ST.Pure_Lazy,
+                        Data.Vault.ST.Pure_Strict

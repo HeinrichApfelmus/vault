@@ -1,11 +1,9 @@
 {-----------------------------------------------------------------------------
     vault
 ------------------------------------------------------------------------------}
-{-# LANGUAGE CPP #-}
-module Data.Vault.ST (
+module Data.Vault.Lazy (
     -- * Synopsis
     -- | A persistent store for values of arbitrary types.
-    -- Variant for the 'ST' monad.
     
     -- * Vault
     Vault, Key,
@@ -16,23 +14,9 @@ module Data.Vault.ST (
     lock, unlock,
     ) where
 
-import Data.Monoid (Monoid(..))
 import Prelude hiding (lookup)
 import Control.Monad.ST
-
-{-
-    The GHC-specific implementation uses  unsafeCoerce 
-    for reasons of efficiency.
-    
-    See  http://apfelmus.nfshost.com/blog/2011/09/04-vault.html
-    for the second implementation that doesn't need to
-    bypass the type checker.
--}
-#if UseGHC
-import qualified Data.Vault.ST_GHC as ST
-#else
-import qualified Data.Vault.ST_Pure as ST
-#endif
+import qualified Data.Vault.ST.Lazy as ST
 
 {-----------------------------------------------------------------------------
     Vault
@@ -42,45 +26,41 @@ import qualified Data.Vault.ST_Pure as ST
 -- This variant is the simplest and creates keys in the 'IO' monad.
 -- See the module "Data.Vault.ST" if you want to use it with the 'ST' monad instead.
 --
--- > type Vault :: * -> *
+-- > type Vault :: *
 -- > instance Monoid Vault
-type Vault = ST.Vault
-
-instance Monoid (ST.Vault s) where
-    mempty = empty
-    mappend = union
+type Vault = ST.Vault RealWorld
 
 -- | Keys for the vault.
 --
--- > type Key :: * -> * -> *
-type Key = ST.Key
+-- > type Key :: * -> *
+type Key = ST.Key RealWorld
 
 -- | The empty vault.
-empty :: Vault s
+empty :: Vault
 empty = ST.empty
 
 -- | Create a new key for use with a vault.
-newKey :: ST s (Key s a)
-newKey = ST.newKey
+newKey :: IO (Key a)
+newKey = stToIO ST.newKey
 
 -- | Lookup the value of a key in the vault.
-lookup :: Key s a -> Vault s -> Maybe a
+lookup :: Key a -> Vault -> Maybe a
 lookup = ST.lookup
 
 -- | Insert a value for a given key. Overwrites any previous value.
-insert :: Key s a -> a -> Vault s -> Vault s
+insert :: Key a -> a -> Vault -> Vault
 insert = ST.insert
 
 -- | Adjust the value for a given key if it's present in the vault.
-adjust :: (a -> a) -> Key s a -> Vault s -> Vault s
+adjust :: (a -> a) -> Key a -> Vault -> Vault
 adjust = ST.adjust
 
 -- | Delete a key from the vault.
-delete :: Key s a -> Vault s -> Vault s
+delete :: Key a -> Vault -> Vault
 delete = ST.delete
 
 -- | Merge two vaults (left-biased).
-union :: Vault s -> Vault s -> Vault s
+union :: Vault -> Vault -> Vault
 union = ST.union
 
 {-----------------------------------------------------------------------------
@@ -88,13 +68,13 @@ union = ST.union
 ------------------------------------------------------------------------------}
 -- | A persistent store for a single value.
 --
--- > type Locker :: * -> *
-type Locker = ST.Locker
+-- > type Locker :: *
+type Locker = ST.Locker RealWorld
 
 -- | Put a single value into a 'Locker'.
-lock :: Key s a -> a -> Locker s
+lock :: Key a -> a -> Locker
 lock = ST.lock
 
 -- | Retrieve the value from the 'Locker'.
-unlock :: Key s a -> Locker s -> Maybe a
+unlock :: Key a -> Locker -> Maybe a
 unlock = ST.unlock

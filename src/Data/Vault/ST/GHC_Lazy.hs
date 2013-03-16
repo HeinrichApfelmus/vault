@@ -1,7 +1,7 @@
 {-----------------------------------------------------------------------------
     vault
 ------------------------------------------------------------------------------}
-module Data.Vault.ST_GHC where
+module Data.Vault.ST.GHC_Lazy where
 
 import Prelude hiding (lookup)
 import Data.Functor
@@ -20,7 +20,7 @@ import Data.Unique.Really
 import GHC.Exts (Any)
 import Unsafe.Coerce (unsafeCoerce)
 
-import qualified Data.HashMap.Strict as Map
+import qualified Data.HashMap.Lazy as Map
 type Map = Map.HashMap
 
 toAny :: a -> Any

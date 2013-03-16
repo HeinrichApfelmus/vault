@@ -1,7 +1,9 @@
 {-----------------------------------------------------------------------------
     vault
+    
+    FIXME: Make Implementation actually strict!
 ------------------------------------------------------------------------------}
-module Data.Vault.ST_Pure where
+module Data.Vault.ST.Pure_Strict where
 
 import Prelude hiding (lookup)
 import Data.Functor
