@@ -1,7 +1,3 @@
-{-----------------------------------------------------------------------------
-    vault
-------------------------------------------------------------------------------}
-
 -- | An abstract interface to a unique symbol generator.
 module Data.Unique.Really (
     Unique, newUnique, hashUnique,
@@ -48,7 +44,7 @@ newNumber = atomicModifyIORef' refNumber $ \x -> let x' = x+1 in (x', x')
 --
 -- NOTE: You haven't compiled this module with GHC.
 -- The functionality will be identitcal to "Data.Unique".
-newtype Unique = Unique Integer deriving (Eq)
+newtype Unique = Unique Integer deriving (Eq,Ord)
 
 newUnique = Unique <$> newNumber
 hashUnique (Unique s) = fromIntegral s
