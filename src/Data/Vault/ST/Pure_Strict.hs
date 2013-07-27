@@ -1,7 +1,5 @@
 {-----------------------------------------------------------------------------
     vault
-    
-    FIXME: Make Implementation actually strict!
 ------------------------------------------------------------------------------}
 module Data.Vault.ST.Pure_Strict where
 
@@ -16,7 +14,7 @@ import Control.Monad.ST.Unsafe
 
 import Data.Unique
 
-import qualified Data.Map as Map
+import qualified Data.Map.Strict as Map
 type Map = Map.Map
 
 {-----------------------------------------------------------------------------
