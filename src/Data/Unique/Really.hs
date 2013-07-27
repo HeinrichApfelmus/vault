@@ -9,7 +9,6 @@ module Data.Unique.Really (
     ) where
 
 import Control.Applicative
-import System.IO.Unsafe (unsafePerformIO)
 
 #if UseGHC
 
@@ -28,7 +27,7 @@ newtype Unique = Unique (StableName Data.Unique.Unique) deriving (Eq)
 
 newUnique = do
     x <- Data.Unique.newUnique
-    evaluate x
+    _ <- evaluate x
     Unique <$> makeStableName x
 
 hashUnique (Unique s) = hashStableName s
@@ -38,6 +37,7 @@ instance Hashable Unique where hashWithSalt s = hashWithSalt s . hashUnique
 #else
 
 import Data.IORef
+import System.IO.Unsafe (unsafePerformIO)
 
 {-# NOINLINE refNumber #-}
 refNumber :: IORef Integer

@@ -42,7 +42,7 @@ Library
         CPP-options:    -DUseGHC
 
     extensions:         CPP
---    ghc-options:        -Wall
+    ghc-options:        -Wall -fno-warn-missing-signatures
 
     exposed-modules:
                         Data.Vault.Lazy,

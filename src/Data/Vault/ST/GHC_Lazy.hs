@@ -5,7 +5,6 @@ module Data.Vault.ST.GHC_Lazy where
 
 import Prelude hiding (lookup)
 import Data.Functor
-import Data.IORef
 import Control.Monad.ST
 #if MIN_VERSION_base(4,4,0)
 import Control.Monad.ST.Unsafe as STUnsafe
