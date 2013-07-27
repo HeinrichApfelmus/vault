@@ -43,10 +43,8 @@ import Data.IORef
 refNumber :: IORef Integer
 refNumber = unsafePerformIO $ newIORef 0
 
-newNumber = do
-    x <- readIORef refNumber
-    writeIORef refNumber $! x+1     -- FIXME: race condition!
-    return x
+newNumber = atomicModifyIORef refNumber $ \x -> let x' = x+1
+                                                in  x' `seq` (x', x')
 
 newtype Unique = Unique Integer deriving (Eq)
 
