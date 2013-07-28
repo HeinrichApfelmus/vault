@@ -27,7 +27,7 @@ import Data.Unique.Really
 #if UseGHC
 #include "GHC.hs"
 #else
-#include "Pure.hs"
+#include "IORef.hs"
 #endif
 
 #include "API.hs"
