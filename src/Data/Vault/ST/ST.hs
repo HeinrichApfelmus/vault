@@ -25,9 +25,9 @@ import Data.Unique.Really
     bypass the type checker.
 -}
 #if UseGHC
-#include "GHC.hs"
+#include "backends/GHC.hs"
 #else
-#include "IORef.hs"
+#include "backends/IORef.hs"
 #endif
 
 #include "API.hs"
