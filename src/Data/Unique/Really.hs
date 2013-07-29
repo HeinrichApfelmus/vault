@@ -9,12 +9,12 @@ module Data.Unique.Really (
     ) where
 
 import Control.Applicative
+import Data.Hashable
 
 #if UseGHC
 
 import Control.Exception (evaluate)
 import qualified Data.Unique
-import Data.Hashable
 import System.Mem.StableName
 
 -- | An abstract unique value.
@@ -31,8 +31,6 @@ newUnique = do
     Unique <$> makeStableName x
 
 hashUnique (Unique s) = hashStableName s
-
-instance Hashable Unique where hashWithSalt s = hashWithSalt s . hashUnique
 
 #else
 
@@ -69,3 +67,5 @@ newUnique  :: IO Unique
 -- Two Uniques may hash to the same value, although in practice this is unlikely.
 -- The 'Int' returned makes a good hash key.
 hashUnique :: Unique -> Int
+
+instance Hashable Unique where hashWithSalt s = hashWithSalt s . hashUnique
