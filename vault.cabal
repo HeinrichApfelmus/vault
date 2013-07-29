@@ -33,7 +33,10 @@ source-repository head
     type:           git
     location:       git://github.com/HeinrichApfelmus/vault.git
 
-    
+flag UseGHC
+    description: Use GHC-specific packages and extensions.
+    default:     True
+
 Library
     hs-source-dirs:     src
     build-depends:      base == 4.6.*, containers == 0.5.*,
@@ -49,8 +52,8 @@ Library
                         Data.Vault.ST.Lazy,
                         Data.Vault.ST.Strict,
                         Data.Unique.Really
-                        
-    if impl(ghc)
+
+    if impl(ghc) && flag(UseGHC)
         CPP-options:    -DUseGHC
         other-modules:
                         Data.Vault.ST.GHC_Lazy,

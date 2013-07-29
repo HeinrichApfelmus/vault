@@ -27,11 +27,11 @@ lock :: Key s a -> a -> Locker s
 lock (Key u ref) x = Locker u $ writeIORef ref $ Just x
 
 unlock :: Key s a -> Locker s -> Maybe a
-unlock (Key _ ref) (Locker _ m) = unsafePerformIO $ do
-    m
-    mx <- readIORef ref     -- FIXME: race condition!
-    writeIORef ref Nothing
-    return mx
+unlock (Key k ref) (Locker k' m)
+    | k == k' = unsafePerformIO $ do
+        m
+        readIORef ref     -- FIXME: race condition!
+    | otherwise = Nothing
 
 {-----------------------------------------------------------------------------
     Vault

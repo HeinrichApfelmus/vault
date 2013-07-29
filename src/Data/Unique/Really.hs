@@ -1,10 +1,9 @@
 {-----------------------------------------------------------------------------
     vault
 ------------------------------------------------------------------------------}
-{-# LANGUAGE CPP #-}
+
+-- | An abstract interface to a unique symbol generator.
 module Data.Unique.Really (
-    -- | An abstract interface to a unique symbol generator.
-    
     Unique, newUnique, hashUnique,
     ) where
 
@@ -43,14 +42,14 @@ refNumber = unsafePerformIO $ newIORef 0
 
 newNumber = atomicModifyIORef' refNumber $ \x -> let x' = x+1 in (x', x')
 
-newtype Unique = Unique Integer deriving (Eq)
-
 -- | An abstract unique value.
 -- Values of type 'Unique' may be compared for equality
 -- and hashed into Int.
 --
 -- NOTE: You haven't compiled this module with GHC.
 -- The functionality will be identitcal to "Data.Unique".
+newtype Unique = Unique Integer deriving (Eq)
+
 newUnique = Unique <$> newNumber
 hashUnique (Unique s) = fromIntegral s
 
