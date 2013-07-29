@@ -43,8 +43,7 @@ import System.IO.Unsafe (unsafePerformIO)
 refNumber :: IORef Integer
 refNumber = unsafePerformIO $ newIORef 0
 
-newNumber = atomicModifyIORef refNumber $ \x -> let x' = x+1
-                                                in  x' `seq` (x', x')
+newNumber = atomicModifyIORef' refNumber $ \x -> let x' = x+1 in (x', x')
 
 newtype Unique = Unique Integer deriving (Eq)
 
