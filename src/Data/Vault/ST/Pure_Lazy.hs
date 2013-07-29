@@ -14,7 +14,7 @@ import Control.Monad.ST.Unsafe
 
 import Data.Unique
 
-import qualified Data.Map as Map
+import qualified Data.Map.Lazy as Map
 type Map = Map.Map
 
 {-----------------------------------------------------------------------------

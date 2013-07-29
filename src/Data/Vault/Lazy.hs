@@ -4,6 +4,8 @@
 module Data.Vault.Lazy (
     -- * Synopsis
     -- | A persistent store for values of arbitrary types.
+    --
+    -- The 'Vault' type in this module is strict in the keys but lazy in the values.
     
     -- * Vault
     Vault, Key,

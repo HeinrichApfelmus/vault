@@ -16,7 +16,7 @@ import Control.Monad.ST.Unsafe
 
 import Data.Unique
 
-import qualified Data.Map as Map
+import qualified Data.Map.Strict as Map
 type Map = Map.Map
 
 {-----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ data Key s a  = Key    !Unique (IORef (Maybe a))
 data Locker s = Locker !Unique (IO ())
 
 lock :: Key s a -> a -> Locker s
-lock (Key u ref) x = Locker u $ writeIORef ref $ Just x
+lock (Key u ref) x = x `seq` (Locker u $ writeIORef ref $ Just x)
 
 unlock :: Key s a -> Locker s -> Maybe a
 unlock (Key _ ref) (Locker _ m) = unsafePerformIO $ do
