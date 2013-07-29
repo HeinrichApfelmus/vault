@@ -1,7 +1,7 @@
 {-----------------------------------------------------------------------------
     vault
 ------------------------------------------------------------------------------}
-{-# LANGUAGE CPP #-}
+
 -- | An abstract interface to a unique symbol generator.
 module Data.Unique.Really (
     Unique, newUnique, hashUnique,
