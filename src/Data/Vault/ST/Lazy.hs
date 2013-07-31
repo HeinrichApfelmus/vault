@@ -1,15 +1,12 @@
 {-----------------------------------------------------------------------------
     vault
 ------------------------------------------------------------------------------}
-{-# LANGUAGE CPP #-}
-module Data.Vault.ST.Lazy (
-    -- * Synopsis
-    -- | A persistent store for values of arbitrary types.
-    -- Variant for the 'ST' monad.
-    --
-    -- The 'Vault' type in this module is strict in the keys but lazy in the values.
 
-    
+-- | A persistent store for values of arbitrary types.
+-- Variant for the 'ST' monad.
+--
+-- The 'Vault' type in this module is strict in the keys but lazy in the values.
+module Data.Vault.ST.Lazy (
     -- * Vault
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,

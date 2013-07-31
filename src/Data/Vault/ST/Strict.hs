@@ -1,14 +1,12 @@
 {-----------------------------------------------------------------------------
     vault
 ------------------------------------------------------------------------------}
-{-# LANGUAGE CPP #-}
+
+-- | A persistent store for values of arbitrary types.
+-- Variant for the 'ST' monad.
+--
+-- The 'Vault' type in this module is strict in both keys and values.
 module Data.Vault.ST.Strict (
-    -- * Synopsis
-    -- | A persistent store for values of arbitrary types.
-    -- Variant for the 'ST' monad.
-    --
-    -- The 'Vault' type in this module is strict in both keys and values.
-    
     -- * Vault
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
