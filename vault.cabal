@@ -55,10 +55,3 @@ Library
 
     if impl(ghc) && flag(UseGHC)
         CPP-options:    -DUseGHC
-        other-modules:
-                        Data.Vault.ST.GHC_Lazy,
-                        Data.Vault.ST.GHC_Strict
-    else
-        other-modules:
-                        Data.Vault.ST.Pure_Lazy,
-                        Data.Vault.ST.Pure_Strict
