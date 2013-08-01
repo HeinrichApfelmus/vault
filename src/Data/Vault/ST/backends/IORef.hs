@@ -16,7 +16,6 @@ lock (Key u ref) x = x `seq` (Locker u $ writeIORef ref $ Just x)
 lock (Key u ref) x = Locker u $ writeIORef ref $ Just x
 #endif
 
-unlock :: Key s a -> Locker s -> Maybe a
 unlock (Key k ref) (Locker k' m)
     | k == k' = unsafePerformIO $ do
         m
