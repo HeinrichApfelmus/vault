@@ -11,7 +11,11 @@ module Data.Vault.LAZINESS (
 import Prelude hiding (lookup)
 import Control.Monad.ST
 import qualified Data.Vault.ST.LAZINESS as ST
-import Data.Vault.ST.LAZINESS hiding (Vault, Key, Locker, newKey)
+
+
+{-----------------------------------------------------------------------------
+    Vault
+------------------------------------------------------------------------------}
 
 -- | A persistent store for values of arbitrary types.
 --
@@ -22,9 +26,45 @@ type Vault = ST.Vault RealWorld
 -- | Keys for the vault.
 type Key = ST.Key RealWorld
 
+-- | The empty vault.
+empty :: Vault
+empty = ST.empty
+
 -- | Create a new key for use with a vault.
 newKey :: IO (Key a)
 newKey = stToIO ST.newKey
 
+-- | Lookup the value of a key in the vault.
+lookup :: Key a -> Vault -> Maybe a
+lookup = ST.lookup
+
+-- | Insert a value for a given key. Overwrites any previous value.
+insert :: Key a -> a -> Vault -> Vault
+insert = ST.insert
+
+-- | Adjust the value for a given key if it's present in the vault.
+adjust :: (a -> a) -> Key a -> Vault -> Vault
+adjust = ST.adjust
+
+-- | Delete a key from the vault.
+delete :: Key a -> Vault -> Vault
+delete = ST.delete
+
+-- | Merge two vaults (left-biased).
+union :: Vault -> Vault -> Vault
+union = ST.union
+
+{-----------------------------------------------------------------------------
+    Locker
+------------------------------------------------------------------------------}
+
 -- | A persistent store for a single value.
 type Locker = ST.Locker RealWorld
+
+-- | Put a single value into a 'Locker'.
+lock :: Key a -> a -> Locker
+lock = ST.lock
+
+-- | Retrieve the value from the 'Locker'.
+unlock :: Key a -> Locker -> Maybe a
+unlock = ST.unlock
