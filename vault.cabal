@@ -29,7 +29,11 @@ Copyright:          (c) Heinrich Apfelmus 2011-2013
 build-type:         Simple
 cabal-version:      >= 1.6
 
-extra-source-files: Readme.md
+extra-source-files:
+    Readme.md
+    src/Data/Vault/IO.hs
+    src/Data/Vault/ST/ST.hs
+    src/Data/Vault/ST/backends/GHC.hs
 
 source-repository head
     type:           git
