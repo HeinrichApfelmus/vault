@@ -1,5 +1,5 @@
 Name:               vault
-Version:            0.3.0.1
+Version:            0.3.0.2
 Synopsis:           a persistent store for values of arbitrary types
 Description:
   A /vault/ is a persistent store for values of arbitrary types.
@@ -12,6 +12,8 @@ Description:
   Also provided is a /locker/ type, representing a store for a single element.
   .
   Changelog:
+  .
+  * 0.3.0.2 - Fix tarball.
   .
   * 0.3.0.1 - Use CPP to reduce code duplication.
   .
