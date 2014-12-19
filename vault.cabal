@@ -1,5 +1,5 @@
 Name:               vault
-Version:            0.3.0.3
+Version:            0.3.0.4
 Synopsis:           a persistent store for values of arbitrary types
 Description:
   A /vault/ is a persistent store for values of arbitrary types.
@@ -10,17 +10,6 @@ Description:
   hence the name.
   .
   Also provided is a /locker/ type, representing a store for a single element.
-  .
-  Changelog:
-  .
-  * 0.3.0.3 - Bump version of base.
-  .
-  * 0.3.0.2 - Fix tarball.
-  .
-  * 0.3.0.1 - Use CPP to reduce code duplication.
-  .
-  * 0.3.0.0 - Split modules into Lazy and Strict variants, no default choice.
-  Add Hashable instance to Data.Unique.Really for all implementations.
     
 Category:           Data
 License:            BSD3
@@ -34,7 +23,8 @@ build-type:         Simple
 cabal-version:      >= 1.6
 
 extra-source-files:
-    Readme.md
+    CHANGELOG.md
+    README.md
     src/Data/Vault/IO.hs
     src/Data/Vault/ST/ST.hs
     src/Data/Vault/ST/backends/GHC.hs
