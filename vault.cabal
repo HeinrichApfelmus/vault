@@ -45,8 +45,6 @@ Library
                         hashable >= 1.1.2.5 && < 1.3
 
     extensions:         CPP
-    if flag(UseGHC) && impl(ghc >= 7.8)
-      extensions:       RoleAnnotations
     ghc-options:        -Wall -fno-warn-missing-signatures
 
     exposed-modules:

@@ -19,7 +19,8 @@ newtype Vault s = Vault (Map Unique Any)
 newtype Key s a = Key Unique
 
 #if __GLASGOW_HASKELL__ >= 708
-type role Key phantom nominal
+type role Vault nominal
+type role Key nominal nominal
 #endif
 
 newKey = STUnsafe.unsafeIOToST $ Key <$> newUnique
