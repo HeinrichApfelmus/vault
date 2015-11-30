@@ -1,5 +1,9 @@
 ## Changelog for the `vault` package
 
+**0.3.0.5**
+
+* Add support for GHC type roles extension, using the `RoleAnnotations` language pragma.
+
 **0.3.0.4** — Bump upper version bound for the `base` dependency.
 
 **0.3.0.3** — Bump upper version bound for the `base` dependency.
