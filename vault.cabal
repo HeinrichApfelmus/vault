@@ -10,7 +10,7 @@ Description:
   hence the name.
   .
   Also provided is a /locker/ type, representing a store for a single element.
-    
+
 Category:           Data
 License:            BSD3
 License-file:       LICENSE

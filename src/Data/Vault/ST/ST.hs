@@ -1,3 +1,7 @@
+#if __GLASGOW_HASKELL__ >= 708
+{-# LANGUAGE RoleAnnotations #-}
+#endif
+
 module Data.Vault.ST.LAZINESS (
     -- * Vault
     Vault, Key,
