@@ -40,8 +40,7 @@ before_script:
   - cabal configure
   - cabal sdist
   - cd ..
-  - pwd
   - tar -xf $PKGNAME/dist/$PKGNAME*.tar.gz
-  - cd "$PKGNAME*"
+  - cd $PKGNAME*
 script:
   - cabal configure --enable-tests && cabal build && cabal test
