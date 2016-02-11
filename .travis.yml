@@ -10,8 +10,12 @@ language: c
 # explicitly request container-based infrastructure
 sudo: false
 
-env: PKGNAME=vault
+# convenient abbreviation
+env:
+  global:
+    - PKGNAME=vault
 
+# build matrix
 matrix:
   include:
     - env: CABALVER=1.16 GHCVER=7.6.3
