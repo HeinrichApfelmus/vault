@@ -1,5 +1,5 @@
 Name:               vault
-Version:            0.3.0.5
+Version:            0.3.0.6
 Synopsis:           a persistent store for values of arbitrary types
 Description:
   A /vault/ is a persistent store for values of arbitrary types.
@@ -39,7 +39,7 @@ flag UseGHC
 
 Library
     hs-source-dirs:     src
-    build-depends:      base >= 4.5 && < 4.9,
+    build-depends:      base >= 4.5 && < 4.10,
                         containers >= 0.4 && < 0.6,
                         unordered-containers >= 0.2.3.0 && < 0.3,
                         hashable >= 1.1.2.5 && < 1.3
