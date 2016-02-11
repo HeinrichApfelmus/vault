@@ -34,13 +34,12 @@ install:
   - cabal --version
   - echo "$(ghc --version) [$(ghc --print-project-git-commit-id 2> /dev/null || echo '?')]"
   - travis_retry cabal update
-  - cd "$PKGNAME/"
   - cabal install --only-dependencies
 
 before_script:
   - cabal configure
   - cabal sdist
-  - cd ../..
+  - cd ..
   - tar -xf "$PKGNAME/dist/$PKGNAME*.tar.gz"
   - cd "$PKGNAME*"
 script:
