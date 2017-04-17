@@ -1,5 +1,9 @@
 ## Changelog for the `vault` package
 
+**0.3.0.7**
+
+* Bump dependencies to allow `base >= 4.5 && < 4.11`.
+
 **0.3.0.6**
 
 * Bump dependencies to allow `base >= 4.5 && < 4.10`.
