@@ -15,7 +15,7 @@ module Data.Vault.ST.LAZINESS (
 import Data.Monoid (Monoid(..))
 import Data.Semigroup (Semigroup((<>)))
 import Prelude hiding (lookup)
-import Control.Applicative hiding (empty)
+import Control.Applicative ((<$>))
 import Control.Monad.ST
 import Control.Monad.ST.Unsafe as STUnsafe
 
