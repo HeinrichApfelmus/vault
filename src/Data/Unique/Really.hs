@@ -3,7 +3,7 @@ module Data.Unique.Really (
     Unique, newUnique, hashUnique,
     ) where
 
-import Control.Applicative
+import Control.Applicative ((<$>))
 import Data.Hashable
 
 #if UseGHC
