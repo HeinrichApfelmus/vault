@@ -27,7 +27,7 @@ extra-source-files:
     README.md
     src/Data/Vault/IO.hs
     src/Data/Vault/ST/ST.hs
-    src/Data/Vault/ST/backends/GHC.hs
+    src/Data/Vault/ST/backends/GHC.h
 
 source-repository head
     type:           git
