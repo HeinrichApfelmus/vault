@@ -25,7 +25,7 @@ cabal-version:      >= 1.6
 extra-source-files:
     CHANGELOG.md
     README.md
-    src/Data/Vault/IO.hs
+    src/Data/Vault/IO.h
     src/Data/Vault/ST/ST.h
     src/Data/Vault/ST/backends/GHC.h
 
