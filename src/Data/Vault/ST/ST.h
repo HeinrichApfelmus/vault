@@ -30,7 +30,7 @@ import Data.Unique.Really
     bypass the type checker.
 -}
 #if UseGHC
-#include "backends/GHC.hs"
+#include "backends/GHC.h"
 #else
 #include "backends/IORef.hs"
 #endif

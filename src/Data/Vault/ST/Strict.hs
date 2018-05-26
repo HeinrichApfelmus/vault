@@ -5,4 +5,4 @@
 -- Variant for the 'ST' monad.
 --
 -- The 'Vault' type in this module is strict in both keys and values.
-#include "ST.hs"
+#include "ST.h"
