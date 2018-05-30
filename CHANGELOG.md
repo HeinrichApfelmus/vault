@@ -1,5 +1,15 @@
 ## Changelog for the `vault` package
 
+**0.3.1.1**
+
+* Rename source files to allow building the package with [Bazel](https://bazel.build).
+
+**0.3.1.0**
+
+* Compatibility with GHC-8.4:
+     * Bump dependencies to allow `base >= 4.5 && < 4.12`.
+     * Add `Semigroup` instances.
+
 **0.3.0.7**
 
 * Bump dependencies to allow `base >= 4.5 && < 4.11`.
