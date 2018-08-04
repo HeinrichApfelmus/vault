@@ -1,5 +1,12 @@
 ## Changelog for the `vault` package
 
+**0.3.1.2**
+
+* Bump dependencies to allow `containers-0.6`.
+* Compatibility with GHC-8.6
+     * Bump dependencies to allow `base >= 4.5 && < 4.13`.
+
+
 **0.3.1.1**
 
 * Rename source files to allow building the package with [Bazel](https://bazel.build).
