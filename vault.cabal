@@ -39,7 +39,7 @@ flag UseGHC
 
 Library
     hs-source-dirs:     src
-    build-depends:      base >= 4.5 && < 4.13,
+    build-depends:      base >= 4.5 && < 4.14,
                         containers >= 0.4 && < 0.7,
                         semigroups >= 0.1 && < 1.0,
                         unordered-containers >= 0.2.3.0 && < 0.3,
