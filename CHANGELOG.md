@@ -1,5 +1,11 @@
 ## Changelog for the `vault` package
 
+**0.3.1.3**
+
+* Bump dependencies to allow `hashable-1.3`.
+* Compatibility with GHC-8.8
+     * Bump dependencies to allow `base >= 4.5 && < 4.14`
+
 **0.3.1.2**
 
 * Bump dependencies to allow `containers-0.6`.
