@@ -1,5 +1,10 @@
 ## Changelog for the `vault` package
 
+**0.3.1.4**
+
+* Compatibility with GHC-8.10
+     * Bump dependencies to allow `base >= 4.5 && < 4.15`
+
 **0.3.1.3**
 
 * Bump dependencies to allow `hashable-1.3`.
