@@ -1,5 +1,11 @@
 ## Changelog for the `vault` package
 
+**0.3.1.5**
+
+* Compatibility with GHC-9.0
+     * Bump dependencies to allow `base >= 4.5 && < 4.16`
+* Depend on `semigroups` only with `GHC < 8.0`
+
 **0.3.1.4**
 
 * Compatibility with GHC-8.10
