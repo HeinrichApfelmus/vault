@@ -32,7 +32,7 @@ jobs:
         include:
           - ghc: 9.0.1
             allow-failure: false
-          - ghc: 8.10.3
+          - ghc: 8.10.4
             allow-failure: false
           - ghc: 8.8.4
             allow-failure: false
