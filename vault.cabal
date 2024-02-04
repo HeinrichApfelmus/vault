@@ -31,9 +31,10 @@ Tested-With:         GHC == 7.6.3
                     ,GHC == 8.8.4
                     ,GHC == 8.10.7
                     ,GHC == 9.0.2
-                    ,GHC == 9.2.4
-                    ,GHC == 9.4.1
-                    ,GHC == 9.6.1
+                    ,GHC == 9.2.8
+                    ,GHC == 9.4.8
+                    ,GHC == 9.6.4
+                    ,GHC == 9.8.1
 
 extra-source-files:
     CHANGELOG.md
@@ -44,7 +45,7 @@ extra-source-files:
 
 source-repository head
     type:           git
-    location:       git://github.com/HeinrichApfelmus/vault.git
+    location:       https://github.com/HeinrichApfelmus/vault.git
 
 flag UseGHC
     description: Use GHC-specific packages and extensions.
@@ -52,8 +53,8 @@ flag UseGHC
 
 Library
     hs-source-dirs:     src
-    build-depends:      base >= 4.5 && < 4.19,
-                        containers >= 0.4 && < 0.7,
+    build-depends:      base >= 4.5 && < 4.20,
+                        containers >= 0.4 && < 0.8,
                         unordered-containers >= 0.2.3.0 && < 0.3,
                         hashable >= 1.1.2.5 && < 1.5
 
