@@ -1,8 +1,8 @@
 cabal-version:      3.4
-Name:               vault
-Version:            0.3.1.5
-Synopsis:           a persistent store for values of arbitrary types
-Description:
+name:               vault
+version:            0.3.1.5
+synopsis:           a persistent store for values of arbitrary types
+description:
   A /vault/ is a persistent store for values of arbitrary types.
   It's like having first-class access to the storage space behind IORefs.
   .
@@ -12,27 +12,29 @@ Description:
   .
   Also provided is a /locker/ type, representing a store for a single element.
 
-Category:           Data
-License:            BSD-3-Clause
-License-file:       LICENSE
-Author:             Heinrich Apfelmus, Elliott Hird
-Maintainer:         Heinrich Apfelmus <apfelmus at quantentunnel de>
-Homepage:           https://github.com/HeinrichApfelmus/vault
-Copyright:          (c) Heinrich Apfelmus 2011-2013
+category:           Data
 
-build-type:         Simple
-Tested-With:         GHC == 8.0.2
-                    ,GHC == 8.2.2
-                    ,GHC == 8.4.4
-                    ,GHC == 8.6.5
-                    ,GHC == 8.8.4
-                    ,GHC == 8.10.7
-                    ,GHC == 9.0.2
-                    ,GHC == 9.2.8
-                    ,GHC == 9.4.8
-                    ,GHC == 9.6.6
-                    ,GHC == 9.8.2
-                    ,GHC == 9.10.1
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Heinrich Apfelmus, Elliott Hird
+maintainer:         Heinrich Apfelmus <apfelmus at quantentunnel de>
+homepage:           https://github.com/HeinrichApfelmus/vault
+copyright:          (c) Heinrich Apfelmus 2011-2013
+
+Tested-With:
+    , GHC == 8.0.2
+    , GHC == 8.2.2
+    , GHC == 8.4.4
+    , GHC == 8.6.5
+    , GHC == 8.8.4
+    , GHC == 8.10.7
+    , GHC == 9.0.2
+    , GHC == 9.2.8
+    , GHC == 9.4.8
+    , GHC == 9.6.6
+    , GHC == 9.8.4
+    , GHC == 9.10.1
+    , GHC == 9.12.1
 
 extra-source-files:
     CHANGELOG.md
@@ -49,12 +51,13 @@ flag UseGHC
     description: Use GHC-specific packages and extensions.
     default:     True
 
-Library
+library
     hs-source-dirs:     src
-    build-depends:      base >= 4.5 && < 4.21,
-                        containers >= 0.4 && < 0.8,
-                        unordered-containers >= 0.2.3.0 && < 0.3,
-                        hashable >= 1.1.2.5 && < 1.6
+    build-depends:
+        , base >= 4.5 && < 4.22
+        , containers >= 0.4 && < 0.8
+        , unordered-containers >= 0.2.3.0 && < 0.3
+        , hashable >= 1.1.2.5 && < 1.6
 
     if impl(ghc < 8.0)
         build-depends:  semigroups >= 0.1 && < 1.0
@@ -64,11 +67,11 @@ Library
     ghc-options:        -Wall -fno-warn-missing-signatures
 
     exposed-modules:
-                        Data.Vault.Lazy,
-                        Data.Vault.Strict,
-                        Data.Vault.ST.Lazy,
-                        Data.Vault.ST.Strict,
-                        Data.Unique.Really
+        Data.Vault.Lazy
+        Data.Vault.Strict
+        Data.Vault.ST.Lazy
+        Data.Vault.ST.Strict
+        Data.Unique.Really
 
     if impl(ghc) && flag(UseGHC)
         CPP-options:    -DUseGHC
