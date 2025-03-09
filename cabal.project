@@ -1,0 +1,10 @@
+packages: .
+
+-- constraints:
+--  any.containers == 0.8
+--
+-- allow-newer:
+--  *:containers
+
+minimize-conflict-set:
+  true
