@@ -1,12 +1,18 @@
-name: Build cabal project
+# Github action inspired by
+# https://github.com/jonathanknowles/haskell-example
+# https://github.com/DeltaQ-SD/deltaq/
+#
+name: Build
 on:
   workflow_dispatch:
+  merge_group:
+    types:
+      - checks_requested
   pull_request:
     types:
       - synchronize
       - opened
       - reopened
-  merge_group:
   push:
     branches:
       - main
