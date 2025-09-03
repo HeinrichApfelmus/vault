@@ -12,10 +12,7 @@ module Data.Vault.ST.LAZINESS (
     lock, unlock,
     ) where
 
-import Data.Monoid (Monoid(..))
-import Data.Semigroup (Semigroup((<>)))
 import Prelude hiding (lookup)
-import Control.Applicative ((<$>))
 import Control.Monad.ST
 import Control.Monad.ST.Unsafe as STUnsafe
 
