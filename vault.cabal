@@ -1,6 +1,6 @@
 cabal-version:      3.4
 name:               vault
-version:            0.3.1.6
+version:            0.3.2.0
 synopsis:           a persistent store for values of arbitrary types
 description:
   A /vault/ is a persistent store for values of arbitrary types.
@@ -60,6 +60,7 @@ library
   hs-source-dirs:     src
   exposed-modules:
     Data.Unique.Really
+    Data.Unique.Really.Map
     Data.Vault.Lazy
     Data.Vault.ST.Lazy
     Data.Vault.ST.Strict

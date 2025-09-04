@@ -1,5 +1,11 @@
 ## Changelog for the `vault` package
 
+**0.3.2.0**
+
+Added
+
+* Add module `Data.Unique.Really.Map`
+
 **0.3.1.5**
 
 * Compatibility with GHC-9.0
