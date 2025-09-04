@@ -1,5 +1,21 @@
 ## Changelog for the `vault` package
 
+**0.3.2.0**
+
+Added
+
+* Add module `Data.Unique.Really.Map`
+
+Changed
+
+* Remove dependencies on `hashable` and `unordered-containers`
+  when not compiling with GHC.
+
+Removed
+
+* Remove `instance Hashable Unique` when not compiling with GHC
+* Dropped support for `GHC < 8.4`
+
 **0.3.1.5**
 
 * Compatibility with GHC-9.0

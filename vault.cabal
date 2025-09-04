@@ -1,6 +1,6 @@
 cabal-version:      3.4
 name:               vault
-version:            0.3.1.6
+version:            0.3.2.0
 synopsis:           a persistent store for values of arbitrary types
 description:
   A /vault/ is a persistent store for values of arbitrary types.
@@ -53,13 +53,12 @@ library
   build-depends:
     , base                  >=4.11    && <4.22
     , containers            >=0.5     && <0.9
-    , hashable              >=1.1.2.5 && <1.6
-    , unordered-containers  >=0.2.3.0 && <0.3
 
   ghc-options:        -Wall -fno-warn-missing-signatures
   hs-source-dirs:     src
   exposed-modules:
     Data.Unique.Really
+    Data.Unique.Really.Map
     Data.Vault.Lazy
     Data.Vault.ST.Lazy
     Data.Vault.ST.Strict
@@ -67,3 +66,6 @@ library
 
   if (impl(ghc) && flag(useghc))
     cpp-options: -DUseGHC
+    build-depends:
+      , hashable              >=1.1.2.5 && <1.6
+      , unordered-containers  >=0.2.3.0 && <0.3

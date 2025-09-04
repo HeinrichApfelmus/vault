@@ -21,7 +21,7 @@ on:
     - cron: 0 18 * * *
 jobs:
   build:
-    name: ${{ matrix.os }}-ghc-${{ matrix.ghc }}
+    name: ${{ matrix.os }}-ghc-${{ matrix.ghc }}-${{ matrix.cabal-flags}}
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.allow-failure }}
     strategy:
@@ -42,6 +42,15 @@ jobs:
           - '9.8'
           - '9.10'
           - '9.12'
+        cabal-flags:
+          - '-f+UseGHC'
+        include:
+          - os: ubuntu-latest
+            cabal: '3.12'
+            ghc: '9.12'
+            cabal-flags: '-f-UseGHC'
+            allow-failure: false
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,7 +64,7 @@ jobs:
 
       - name: Configure
         run: |
-          cabal configure \
+          cabal configure ${{ matrix.cabal-flags }} \
             --enable-tests \
             --enable-benchmarks \
             --enable-documentation \
@@ -70,7 +79,7 @@ jobs:
         uses: actions/cache/restore@v4
         id: cache
         env:
-          key: ${{ matrix.os }}-ghc-${{ matrix.ghc }}
+          key: ${{ matrix.os }}-ghc-${{ matrix.ghc }}-${{ matrix.cabal-flags }}
           hash: ${{ hashFiles('**/plan.json') }}
         with:
           key: ${{ env.key }}-${{ env.hash }}
