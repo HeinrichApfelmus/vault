@@ -28,7 +28,7 @@ unlock (Key k ref) (Locker k' m)
 -- implemented as a collection of lockers
 newtype Vault s = Vault (Map Unique (Locker s))
 
-newKey = STUnsafe.unsafeIOToST $ Key <$> newUnique <*> newIORef Nothing
+newKey = unsafeIOToST $ Key <$> newUnique <*> newIORef Nothing
 
 lookup key@(Key k _)   (Vault m) = unlock key =<< Map.lookup k m
 

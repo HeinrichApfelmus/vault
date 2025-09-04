@@ -14,7 +14,12 @@ module Data.Vault.ST.LAZINESS (
 
 import Prelude hiding (lookup)
 import Control.Monad.ST
-import Control.Monad.ST.Unsafe as STUnsafe
+
+#if defined(__MHS__)
+import GHC.Exts (unsafeIOToST)
+#else
+import Control.Monad.ST.Unsafe (unsafeIOToST)
+#endif
 
 import Data.Unique.Really
 
