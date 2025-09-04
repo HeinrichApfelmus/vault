@@ -23,7 +23,7 @@ type role Vault nominal
 type role Key nominal nominal
 #endif
 
-newKey = STUnsafe.unsafeIOToST $ Key <$> newUnique
+newKey = unsafeIOToST $ Key <$> newUnique
 
 lookup (Key k) (Vault m) = fromAny <$> Map.lookup k m
 
