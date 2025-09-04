@@ -2,7 +2,7 @@
 # https://github.com/jonathanknowles/haskell-example
 # https://github.com/DeltaQ-SD/deltaq/
 #
-name: Build
+name: Haskell CI (GHC)
 on:
   workflow_dispatch:
   merge_group:

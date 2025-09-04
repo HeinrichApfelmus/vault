@@ -1,0 +1,65 @@
+# Github action inspired by
+# https://github.com/jonathanknowles/haskell-example
+# https://github.com/DeltaQ-SD/deltaq/
+#
+name: MicroHs CI
+on:
+  workflow_dispatch:
+  merge_group:
+    types:
+      - checks_requested
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - reopened
+  push:
+    branches:
+      - main
+  schedule:
+    # Run once per day (at UTC 18:00) to maintain cache:
+    - cron: 0 18 * * *
+jobs:
+  build:
+    name: ${{ matrix.os }}-mhs
+    runs-on: ${{ matrix.os }}
+    continue-on-error: false
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout MicroHs
+        uses: actions/checkout@v4
+        with:
+          repository: augustss/MicroHs
+          ref: 9c4ee662496fde8b0a948f89ab1ad73a30af4869
+          path: mhs
+
+      # mhs
+      - name: Make and Install MicroHs
+        run: |
+          cd mhs
+          make minstall
+
+      # containers
+      - name: Checkout `containers`
+        uses: actions/checkout@v4
+        with:
+          repository: haskell/containers
+          path: containers
+      - name: Compile and Install `containers`
+        run: |
+          PATH="$HOME/.mcabal/bin:$PATH"
+          cd containers/containers
+          mcabal install
+
+      # vault
+      - name: Compile and Install `vault`
+        run: |
+          PATH="$HOME/.mcabal/bin:$PATH"
+          mcabal install
