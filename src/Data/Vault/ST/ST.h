@@ -46,9 +46,7 @@ instance Semigroup (Vault s) where
 
 instance Monoid (Vault s) where
     mempty = empty
-#if !MIN_VERSION_base(4,11,0)
     mappend = union
-#endif
 
 -- | The empty vault.
 empty :: Vault s
