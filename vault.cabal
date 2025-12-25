@@ -69,3 +69,7 @@ library
 
   if (impl(ghc) && flag(useghc))
     cpp-options: -DUseGHC
+
+  if impl(mhs)
+    build-depends:
+      , unordered-containers >= 0.2.21
