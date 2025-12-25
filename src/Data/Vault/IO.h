@@ -9,14 +9,8 @@ module Data.Vault.LAZINESS (
     ) where
 
 import Prelude hiding (lookup)
+import Control.Monad.ST
 import qualified Data.Vault.ST.LAZINESS as ST
-import GHC.Exts (RealWorld)
-
-#if defined(__MHS__)
-import GHC.Exts (stToIO)
-#else
-import Control.Monad.ST (stToIO)           
-#endif
 
 {-----------------------------------------------------------------------------
     Vault

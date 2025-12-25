@@ -33,11 +33,13 @@ tested-with:
    || ==9.12.2
 
 extra-source-files:
-  CHANGELOG.md
-  README.md
   src/Data/Vault/IO.h
   src/Data/Vault/ST/backends/GHC.h
+  src/Data/Vault/ST/backends/IORef.hs
   src/Data/Vault/ST/ST.h
+extra-doc-files:
+  CHANGELOG.md
+  README.md
 
 source-repository head
   type:     git
@@ -53,12 +55,13 @@ library
   build-depends:
     , base                  >=4.11    && <4.22
     , containers            >=0.5     && <0.9
+    , hashable              >=1.1.2.5 && <1.6
+    , unordered-containers  >=0.2.3.0 && <0.3
 
   ghc-options:        -Wall -fno-warn-missing-signatures
   hs-source-dirs:     src
   exposed-modules:
     Data.Unique.Really
-    Data.Unique.Really.Map
     Data.Vault.Lazy
     Data.Vault.ST.Lazy
     Data.Vault.ST.Strict
@@ -66,6 +69,7 @@ library
 
   if (impl(ghc) && flag(useghc))
     cpp-options: -DUseGHC
+
+  if impl(mhs)
     build-depends:
-      , hashable              >=1.1.2.5 && <1.6
-      , unordered-containers  >=0.2.3.0 && <0.3
+      , unordered-containers >= 0.2.21

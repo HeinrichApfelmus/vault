@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: augustss/MicroHs
-          ref: 9c4ee662496fde8b0a948f89ab1ad73a30af4869
+          ref: 3c4652b27fb404b402109a9ef0439fc2b1a732e9
           path: mhs
 
       # mhs
@@ -45,21 +45,10 @@ jobs:
         run: |
           cd mhs
           make minstall
-
-      # containers
-      - name: Checkout `containers`
-        uses: actions/checkout@v4
-        with:
-          repository: haskell/containers
-          path: containers
-      - name: Compile and Install `containers`
-        run: |
-          PATH="$HOME/.mcabal/bin:$PATH"
-          cd containers/containers
-          mcabal install
+          echo "$HOME/.mcabal/bin" >> "$GITHUB_PATH"
 
       # vault
       - name: Compile and Install `vault`
         run: |
           PATH="$HOME/.mcabal/bin:$PATH"
-          mcabal install
+          mcabal -r install

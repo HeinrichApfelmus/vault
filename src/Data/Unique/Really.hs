@@ -3,9 +3,10 @@ module Data.Unique.Really (
     Unique, newUnique, hashUnique,
     ) where
 
+import           Data.Hashable
+
 #if UseGHC
 import           Control.Exception (evaluate)
-import           Data.Hashable
 import qualified Data.Unique
 import           System.Mem.StableName
 
@@ -23,8 +24,6 @@ newUnique = do
     Unique <$> makeStableName x
 
 hashUnique (Unique s) = hashStableName s
-
-instance Hashable Unique where hashWithSalt s = hashWithSalt s . hashUnique
 
 #else
 
@@ -50,6 +49,8 @@ hashUnique (Unique s) = fromIntegral s
 
 
 #endif
+
+instance Hashable Unique where hashWithSalt s = hashWithSalt s . hashUnique
 
 -- | Creates a new object of type 'Unique'.
 -- The value returned will not compare equal to any other

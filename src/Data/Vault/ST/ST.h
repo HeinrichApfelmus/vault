@@ -14,12 +14,7 @@ module Data.Vault.ST.LAZINESS (
 
 import Prelude hiding (lookup)
 import Control.Monad.ST
-
-#if defined(__MHS__)
-import GHC.Exts (unsafeIOToST)
-#else
 import Control.Monad.ST.Unsafe (unsafeIOToST)
-#endif
 
 import Data.Unique.Really
 
@@ -46,7 +41,6 @@ instance Semigroup (Vault s) where
 
 instance Monoid (Vault s) where
     mempty = empty
-    mappend = union
 
 -- | The empty vault.
 empty :: Vault s
