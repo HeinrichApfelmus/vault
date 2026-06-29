@@ -1,5 +1,10 @@
 cabal-version:      3.4
 name:               vault
+
+-- Package Versioning Policy: https://pvp.haskell.org
+-- PVP summary:     +-+------- breaking API changes
+--                  | | +----- non-breaking API additions
+--                  | | | +--- code changes with no API change
 version:            0.3.1.6
 synopsis:           a persistent store for values of arbitrary types
 description:
@@ -29,8 +34,8 @@ tested-with:
    || ==9.4.8
    || ==9.6.7
    || ==9.8.4
-   || ==9.10.2
-   || ==9.12.2
+   || ==9.10.3
+   || ==9.12.4
 
 extra-source-files:
   src/Data/Vault/IO.h
@@ -73,3 +78,16 @@ library
   if impl(mhs)
     build-depends:
       , unordered-containers >= 0.2.21
+
+test-suite test
+  type:               exitcode-stdio-1.0
+  hs-source-dirs:     test
+  default-language:   Haskell2010
+  build-depends:
+    , base
+    , vault
+    , hspec           >=2.11.0 && <2.12
+
+  main-is:            Spec.hs
+  other-modules:
+    Data.Vault.LazySpec
