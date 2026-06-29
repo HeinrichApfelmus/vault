@@ -1,5 +1,9 @@
--- This implementation is specific to GHC
--- und uses  unsafeCoerce  for reasons of efficiency.
+-- This implementation is specific to GHC because it uses Any,
+-- from and to which it is valid to unsafeCoerce any type.  Using
+-- unsafeCoerce avoids picking up a Typeable constraint. This
+-- implementation is more efficient than the alternative implementation
+-- in terms of IORef.
+
 import GHC.Exts (Any)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -20,7 +24,7 @@ newtype Key s a = Key Unique
 
 #if __GLASGOW_HASKELL__ >= 708
 type role Vault nominal
-type role Key nominal nominal
+type role Key nominal representational
 #endif
 
 newKey = unsafeIOToST $ Key <$> newUnique
