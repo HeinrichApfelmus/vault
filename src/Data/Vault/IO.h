@@ -1,4 +1,4 @@
-module Data.Vault.LAZINESS (
+module MODULE_NAME (
     -- * Vault
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
