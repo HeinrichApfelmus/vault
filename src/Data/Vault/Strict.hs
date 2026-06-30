@@ -1,4 +1,5 @@
 #define LAZINESS Strict
+#define MODULE_NAME Data.Vault.Strict
 
 -- | A persistent store for values of arbitrary types.
 --

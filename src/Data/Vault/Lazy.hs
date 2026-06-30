@@ -1,4 +1,5 @@
 #define LAZINESS Lazy
+#define MODULE_NAME Data.Vault.Lazy
 
 -- | A persistent store for values of arbitrary types.
 --
