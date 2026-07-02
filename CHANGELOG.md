@@ -2,9 +2,15 @@
 
 **next version**
 
+**0.3.2.0**
+
 Changed
 
 * Make value type of `Key` representational (in GHC backend)
+
+Fixed
+
+* Fix potential race condition in IORef backend.
 
 **0.3.1.6**
 

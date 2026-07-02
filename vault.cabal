@@ -5,7 +5,7 @@ name:               vault
 -- PVP summary:     +-+------- breaking API changes
 --                  | | +----- non-breaking API additions
 --                  | | | +--- code changes with no API change
-version:            0.3.1.6
+version:            0.3.2.0
 synopsis:           a persistent store for values of arbitrary types
 description:
   A /vault/ is a persistent store for values of arbitrary types.
