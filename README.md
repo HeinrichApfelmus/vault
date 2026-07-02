@@ -40,5 +40,18 @@ Use the [issue tracker][2] or send an [email to the maintainer][3].
   [3]: mailto:apfelmus@quantentunnel.de
 
 
+Contributors
+============
 
+Many thanks to...
 
+* [Charly Coste](https://github.com/Changaco)
+* [Elliott Hird](https://github.com/ehird)
+* [Henning Thielemann](https://github.com/thielema)
+* [konsumlamm](https://github.com/konsumlamm)
+* [Mark Karpov](https://github.com/mrkkrp)
+* [Ryan Scott](https://github.com/RyanGlScott)
+* [Simon Jakobi](https://github.com/sjakobi)
+* [Tom Ellis](https://github.com/tomjaguarpaw)
+
+... and others!
