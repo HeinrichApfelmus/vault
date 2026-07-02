@@ -1,3 +1,4 @@
+import Control.Concurrent.MVar
 import Data.IORef
 import Data.Unique.Really.Any
 import System.IO.Unsafe (unsafePerformIO)
@@ -8,26 +9,22 @@ type Map = Map.Map
 {-----------------------------------------------------------------------------
     Locker
 ------------------------------------------------------------------------------}
-data Key s a  = Key    !Unique (IORef (Maybe a))
+data Key s a  = Key    !Unique (IORef (Maybe a)) (MVar ())
 data Locker s = Locker !Unique (IO ())
 
 #if IsStrict
-lock (Key u ref) x = x `seq` (Locker u $ writeIORef ref $ Just x)
+lock (Key u ref _) x = x `seq` (Locker u $ writeIORef ref $ Just x)
 #else
-lock (Key u ref) x = Locker u $ writeIORef ref $ Just x
+lock (Key u ref _) x = Locker u $ writeIORef ref $ Just x
 #endif
 
-unlock (Key k ref) (Locker k' m)
+unlock (Key k ref locked) (Locker k' m)
     | k == k' = unsafePerformIO $ do
+        takeMVar locked
         m
-        -- FIXME: race condition!
-        --
-        -- If another unlock action is run concurrently with this one
-        -- on the same Key but a different Locker then that one may
-        -- overwrite ref with its value before this one has had a
-        -- chance to read from it, so this one may obtain the wrong
-        -- result.
-        readIORef ref
+        val <- readIORef ref
+        putMVar locked ()
+        pure val
     | otherwise = Nothing
 
 {-----------------------------------------------------------------------------
@@ -36,13 +33,13 @@ unlock (Key k ref) (Locker k' m)
 -- implemented as a collection of lockers
 newtype Vault s = Vault (Map Unique (Locker s))
 
-newKey = unsafeIOToST $ Key <$> newUnique <*> newIORef Nothing
+newKey = unsafeIOToST $ Key <$> newUnique <*> newIORef Nothing <*> newMVar ()
 
-lookup key@(Key k _)   (Vault m) = unlock key =<< Map.lookup k m
+lookup key@(Key k _ _)   (Vault m) = unlock key =<< Map.lookup k m
 
-insert key@(Key k _) x (Vault m) = Vault $ Map.insert k (lock key x) m
+insert key@(Key k _ _) x (Vault m) = Vault $ Map.insert k (lock key x) m
 
-adjust f key@(Key k _) (Vault m) = Vault $ Map.update f' k m
+adjust f key@(Key k _ _) (Vault m) = Vault $ Map.update f' k m
     where f' = fmap (lock key . f) . unlock key
 
-delete (Key k _) (Vault m)  = Vault $ Map.delete k m
+delete (Key k _ _) (Vault m)  = Vault $ Map.delete k m
