@@ -73,7 +73,7 @@ library
     Data.Vault.ST.Lazy
     Data.Vault.ST.Strict
     Data.Vault.Strict
-    Internal.Data.Vault.IORef
+    Internal.Data.Vault.ST.IORef
   other-modules:
     Data.Unique.Really.Any
     Data.Unique.Really.GHC
@@ -97,5 +97,5 @@ test-suite test
 
   main-is:            Spec.hs
   other-modules:
-    Data.Vault.LazySpec
-    Internal.Data.Vault.IORefSpec
+    Data.Vault.ST.LazySpec
+    Internal.Data.Vault.ST.IORefSpec

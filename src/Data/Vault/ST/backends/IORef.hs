@@ -1,4 +1,5 @@
 import Data.IORef
+import Data.Unique.Really.Any
 import System.IO.Unsafe (unsafePerformIO)
 
 import qualified Data.Map.LAZINESS as Map

@@ -2,7 +2,7 @@
 {-# LANGUAGE RoleAnnotations #-}
 #endif
 
-module Data.Vault.ST.LAZINESS (
+module MODULE_NAME (
     -- * Vault
     Vault, Key,
     empty, newKey, lookup, insert, adjust, delete, union,
@@ -16,8 +16,6 @@ import Prelude hiding (lookup)
 import Control.Monad.ST
 import Control.Monad.ST.Unsafe (unsafeIOToST)
 
-import Data.Unique.Really
-
 {-
     The GHC-specific implementation uses  unsafeCoerce
     for reasons of efficiency.
@@ -26,7 +24,7 @@ import Data.Unique.Really
     for the second implementation that doesn't need to
     bypass the type checker.
 -}
-#if UseGHC
+#if BACKEND_GHC
 #include "backends/GHC.h"
 #else
 #include "backends/IORef.hs"

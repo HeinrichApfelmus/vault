@@ -4,6 +4,7 @@
 -- implementation is more efficient than the alternative implementation
 -- in terms of IORef.
 
+import Data.Unique.Really.GHC
 import GHC.Exts (Any)
 import Unsafe.Coerce (unsafeCoerce)
 
