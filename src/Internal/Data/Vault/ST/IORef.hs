@@ -1,8 +1,8 @@
 #define LAZINESS Lazy
-#undef  UseGHC
-#define MODULE_NAME Internal.Data.Vault.IORef
+#define MODULE_NAME Internal.Data.Vault.ST.IORef
+#undef  BACKEND_GHC
 
 -- | FOR TESTING ONLY. DO NOT USE!
 --
 -- 'Vault' implementation using 'IORef' for testing purposes.
-#include "../../../Data/Vault/IO.h"
+#include "../../../../Data/Vault/ST/ST.h"

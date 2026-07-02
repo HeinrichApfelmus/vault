@@ -38,6 +38,7 @@ tested-with:
    || ==9.12.4
 
 extra-source-files:
+  src/Data/Unique/Really/Core.h
   src/Data/Vault/IO.h
   src/Data/Vault/ST/backends/GHC.h
   src/Data/Vault/ST/backends/IORef.hs
@@ -72,7 +73,10 @@ library
     Data.Vault.ST.Lazy
     Data.Vault.ST.Strict
     Data.Vault.Strict
-    Internal.Data.Vault.IORef
+    Internal.Data.Vault.ST.IORef
+  other-modules:
+    Data.Unique.Really.Any
+    Data.Unique.Really.GHC
 
   if (impl(ghc) && flag(useghc))
     cpp-options: -DUseGHC
@@ -93,5 +97,5 @@ test-suite test
 
   main-is:            Spec.hs
   other-modules:
-    Data.Vault.LazySpec
-    Internal.Data.Vault.IORefSpec
+    Data.Vault.ST.LazySpec
+    Internal.Data.Vault.ST.IORefSpec

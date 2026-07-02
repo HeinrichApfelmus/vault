@@ -1,5 +1,6 @@
 #define LAZINESS Lazy
 #define MODULE_NAME Data.Vault.Lazy
+-- BACKEND_GHC is fixed by the import of Data.Vault.ST.*
 
 -- | A persistent store for values of arbitrary types.
 --
